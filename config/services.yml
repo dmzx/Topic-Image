@@ -1,0 +1,19 @@
+imports:
+    - { resource: topicimage_constants.yml }
+
+services:
+    _defaults:
+        autowire: true
+        bind:
+            $root_path: '%core.root_path%'
+            $php_ext: '%core.php_ext%'
+            $topicimage_constants: '%topicimage_constants%'
+            $helper: '@dmzx.topicimage.helper'
+    dmzx.topicimage.listener:
+        class: dmzx\topicimage\event\listener
+        tags: [{ name: event.listener }]
+    dmzx.topicimage.helper:
+        class: dmzx\topicimage\event\helper
+        tags: [{ name: event.helper }]
+    dmzx.topicimage.controller.acp:
+        class: dmzx\topicimage\controller\acp_controller

@@ -1,0 +1,33 @@
+{% if S_DMZX_TOPICIMAGE_ENABLE and S_USER_LOGGED_IN and not S_IS_BOT and dmzx_topicimage %}
+<div class="forabg">
+	<div class="inner">
+		<ul class="topiclist">
+			<li class="header">
+				<dl class="row-item">
+					<dt><span>{{ lang('DMZX_TOPICIMAGE_RANDOM') }}</span>
+						<div class="prev_next_button">
+							<a id="prev" href="#" title="{{ lang('PREVIOUS_STEP') }}"><i class="icon fa-arrow-circle-left"></i></a> <a id="next" href="#" title="{{ lang('NEXT_STEP') }}"><i class="icon fa-arrow-circle-right"></i></a>
+						</div>
+					</dt>
+					<dd></dd>
+				</dl>
+			</li>
+		</ul>
+		<ul class="scroll-jq bg1" style="overflow-x:hidden; overflow-y:auto; text-align: center;">
+			<li>
+				<dl>
+					<div id="scroll-cr-scroll-crawl" class="panel inner" style="min-height: {{ DMZX_TOPICIMAGE_SIZE }}px;">
+						<div id="scroll-jq" class="scroll-img" style="height: {{ DMZX_TOPICIMAGE_SIZE }}px;">
+						{% for dmzx_topicimage in loops.dmzx_topicimage %}
+							<li style="height: {{ DMZX_TOPICIMAGE_HEIGHT }}px;"><a href="{{ dmzx_topicimage.DMZX_TOPICIMAGE_POST }}"><img src="{{ dmzx_topicimage.DMZX_TOPICIMAGE_IMG }}" title="{{ dmzx_topicimage.DMZX_TOPICIMAGE_TITLE }}" alt="{{ dmzx_topicimage.DMZX_TOPICIMAGE_ALT }}" /></a></li>
+						{% endfor %}
+						</div>
+						<dt style="display: none"></dt>
+						<dd style="display: none"></dd>
+					</div>
+				</dl>
+			</li>
+		</ul>
+	</div>
+</div>
+{% endif %}

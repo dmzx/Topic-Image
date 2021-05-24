@@ -1,0 +1,84 @@
+{% include 'overall_header.html' %}
+
+<h1>{{ lang('ACP_TOPICIMAGE_TITLE') }}</h1>
+
+<p><img src="https://img.shields.io/badge/{{ lang('Version') }}-{{ DMZX_TOPICIMAGE_VERSION }}-green.svg?style=plastic" /></p>
+
+{% if S_ERROR %}
+	<div class="errorbox">
+		<h3>{{ lang('WARNING') }}</h3>
+		<p>{{ ERROR_MSG }}</p>
+	</div>
+{% endif %}
+
+<form id="dmzx_topicimage_acp" name="dmzx_topicimage_acp" method="post" action="{{ U_ACTION }}">
+	<fieldset>
+		<legend>{{ lang('SETTINGS') }}</legend>
+		<dl>
+			<dt><label for="dmzx_topicimage_enable">{{ lang('ACP_DMZX_TOPICIMAGE_ENABLE') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="dmzx_topicimage_enable" value="1"{% if DMZX_TOPICIMAGE_ENABLE %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="dmzx_topicimage_enable" value="0"{% if not DMZX_TOPICIMAGE_ENABLE %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="dmzx_topicimage_size">{{ lang('ACP_DMZX_TOPICIMAGE_SIZE') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_DMZX_TOPICIMAGE_SIZE_EXPLAIN') }}</span></dt>
+			<dd><input type="number" id="dmzx_topicimage_size" name="dmzx_topicimage_size" value="{{ DMZX_TOPICIMAGE_SIZE }}" size="1" min="60" max="120"/></dd>
+		</dl>
+		<dl>
+			<dt><label for="dmzx_topicimage_copyright">{{ lang('ACP_DMZX_TOPICIMAGE_COPYRIGHT') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_COPYRIGHT_EXPLAIN') }}</span></dt>
+			<dd><input type="textbox" id="dmzx_topicimage_copyright" name="dmzx_topicimage_copyright" size="20" maxlength="20" value="{{ DMZX_TOPICIMAGE_COPYRIGHT }}" validate="string" /></dd>
+		</dl>
+		<dl>
+			<dt><label>{{ lang('ACP_DMZX_TOPICIMAGE_PLACE') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_PLACE_EXPLAIN') }}</span></dt>
+			<dd>{{ DMZX_TOPICIMAGE_PLACE }}</dd>
+		</dl>
+		<dl>
+			<dt><label>{{ lang('ACP_DMZX_TOPICIMAGE_EFFECT') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_DMZX_TOPICIMAGE_EFFECT_EXPLAIN') }}</span></dt>
+			<dd>{{ DMZX_TOPICIMAGE_EFFECT }}</dd>
+		</dl>
+		<dl>
+			<dt><label>{{ lang('ACP_DMZX_TOPICIMAGE_DIRECTION') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_DMZX_TOPICIMAGE_DIRECTION_EXPLAIN') }}</span></dt>
+			<dd>{{ DMZX_TOPICIMAGE_DIRECTION }}</dd>
+		</dl>
+		<dl>
+			<dt><label for="dmzx_topicimage_items">{{ lang('ACP_DMZX_TOPICIMAGE_ITEMS') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_DMZX_TOPICIMAGE_ITEMS_EXPLAIN') }}</span></dt>
+			<dd><input type="number" id="dmzx_topicimage_items" name="dmzx_topicimage_items" value="{{ DMZX_TOPICIMAGE_ITEMS }}" size="1" min="1" max="8"/></dd>
+		</dl>
+		<dl>
+			<dt><label for="dmzx_topicimage_timer">{{ lang('ACP_DMZX_TOPICIMAGE_TIMER') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_DMZX_TOPICIMAGE_TIMER_EXPLAIN') }}</span></dt>
+			<dd><input type="number" id="dmzx_topicimage_timer" name="dmzx_topicimage_timer" value="{{ DMZX_TOPICIMAGE_TIMER }}" size="1" min="500" max="5000"/></dd>
+		</dl>
+		<dl>
+			<dt><label for="dmzx_topicimage_img_folder">{{ lang('ACP_DMZX_TOPICIMAGE_IMG_FOLDER') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_IMG_FOLDER_EXPLAIN') }}</span></dt>
+			<dd>
+				<input class="keyword" type="text" name="dmzx_topicimage_img_folder" id="dmzx_topicimage_img_folder" value="{{ DMZX_TOPICIMAGE_IMG_FOLDER }}" minlength="3" required title="{{ lang('ACP_DMZX_TOPICIMAGE_IMG_FOLDER') }}" />
+				<input type="hidden" name="dmzxtopicimageimgfolder" value="dmzx_topicimage_img_folder" />
+			</dd>
+		</dl>
+		{% if DMZX_TOPICIMAGE_FOUNDER %}
+		<hr>
+		<dl>
+			<dt><label for="dmzx_topicimage_clearall">{{ lang('ACP_DMZX_TOPICIMAGE_CLEAR_ALL') ~ lang('COLON') }}</label><br><span>{{ DMZX_TOPICIMAGE_CLEAR_ALL_EXPLAIN }}</span></dt>
+			<dd><input class="button2" id="dmzx_topicimage_clear_all" name="dmzx_topicimage_clear_all" value="{{ lang('RUN') }}" type="submit"></dd>
+		</dl>
+		<hr>
+		<dl>
+			<dt><label for="dmzx_topicimage_grab">{{ lang('ACP_DMZX_TOPICIMAGE_GRAB') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_GRAB_EXPLAIN') }}</span></dt>
+			<dd><input class="button2" id="dmzx_topicimage_grab" name="dmzx_topicimage_grab" value="{{ lang('RUN') }}" type="submit"></dd>
+		</dl>
+		{% endif %}
+		<dl>
+			<dt><label>{{ lang('ACP_DMZX_TOPICIMAGE_INCLUDE') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_DMZX_TOPICIMAGE_INCLUDE_EXPLAIN') }}</span></dt>
+			<dd>{{ DMZX_TOPICIMAGE_INCLUDED }}</dd>
+		</dl>
+	</fieldset>
+
+	<fieldset class="submit-buttons">
+		<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+
+</form>
+
+{% include 'overall_footer.html' %}

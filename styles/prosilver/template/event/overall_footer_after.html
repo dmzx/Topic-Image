@@ -1,0 +1,33 @@
+{% if S_DMZX_TOPICIMAGE_ENABLE and S_USER_LOGGED_IN and dmzx_topicimage %}
+{% INCLUDEJS 'jquery.carouFredSel-packed.js' %}
+<script>
+var TopicImage = {
+
+	effect		: '{{ DMZX_TOPICIMAGE_EFFECT | escape('js') }}',
+	direction	: '{{ DMZX_TOPICIMAGE_DIRECTION | escape('js') }}',
+	duration	: {{ DMZX_TOPICIMAGE_TIMER | escape('js') }},
+	items		: {{ DMZX_TOPICIMAGE_ITEMS | escape('js') }}
+};
+
+$('#scroll-crawl h3 b').remove();
+$(function() {
+	//	Scrolled by user interaction
+	 $("#scroll-jq").carouFredSel({
+			direction: TopicImage.direction,
+			items: {
+				visible: 1,
+				start: "random"
+			},
+			scroll: {
+				items: TopicImage.items,
+				duration: TopicImage.duration,
+				easing: TopicImage.effect,
+				pauseOnHover: true
+			},
+			auto: 5000,
+			prev: '#prev',
+			next: '#next',
+		});
+});
+</script>
+{% endif %}
