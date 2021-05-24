@@ -1,5 +1,7 @@
 # Topic Image Extension
 
+[![Build Status](https://travis-ci.com/dmzx/Topic-Image.svg?branch=master)](https://travis-ci.com/dmzx/Topic-Image)
+
 ## Install
 1. Download the latest release.
 2. In the `ext` directory of your phpBB board, create a new directory named `dmzx` (if it does not already exist).

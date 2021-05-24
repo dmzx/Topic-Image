@@ -35,6 +35,7 @@ branches:
   only:
     - master
     - dev
+    - main
     - /^\d+(\.\d+)?\.x$/
 
 services:
