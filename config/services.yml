@@ -9,11 +9,18 @@ services:
             $php_ext: '%core.php_ext%'
             $topicimage_constants: '%topicimage_constants%'
             $helper: '@dmzx.topicimage.helper'
+            $tables: '%tables%'
+        public: true
     dmzx.topicimage.listener:
         class: dmzx\topicimage\event\listener
-        tags: [{ name: event.listener }]
+        tags: [{ name: 'event.listener' }]
     dmzx.topicimage.helper:
         class: dmzx\topicimage\event\helper
-        tags: [{ name: event.helper }]
+        tags: [{ name: 'event.helper' }]
     dmzx.topicimage.controller.acp:
         class: dmzx\topicimage\controller\acp_controller
+    dmzx.topicimage.cron.task.core.topicimage:
+        class: dmzx\topicimage\cron\prune_topicimage
+        calls:
+            - ['set_name', ['cron.task.core.topicimage']]
+        tags: [{ name: 'cron.task' }]

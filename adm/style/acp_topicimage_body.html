@@ -22,7 +22,7 @@
 			</dd>
 		</dl>
 		<dl>
-			<dt><label for="dmzx_topicimage_size">{{ lang('ACP_DMZX_TOPICIMAGE_SIZE') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_DMZX_TOPICIMAGE_SIZE_EXPLAIN') }}</span></dt>
+			<dt><label for="dmzx_topicimage_size">{{ lang('ACP_DMZX_TOPICIMAGE_SIZE') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_SIZE_EXPLAIN') }}</span></dt>
 			<dd><input type="number" id="dmzx_topicimage_size" name="dmzx_topicimage_size" value="{{ DMZX_TOPICIMAGE_SIZE }}" size="1" min="60" max="120"/></dd>
 		</dl>
 		<dl>
@@ -34,19 +34,19 @@
 			<dd>{{ DMZX_TOPICIMAGE_PLACE }}</dd>
 		</dl>
 		<dl>
-			<dt><label>{{ lang('ACP_DMZX_TOPICIMAGE_EFFECT') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_DMZX_TOPICIMAGE_EFFECT_EXPLAIN') }}</span></dt>
+			<dt><label>{{ lang('ACP_DMZX_TOPICIMAGE_EFFECT') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_EFFECT_EXPLAIN') }}</span></dt>
 			<dd>{{ DMZX_TOPICIMAGE_EFFECT }}</dd>
 		</dl>
 		<dl>
-			<dt><label>{{ lang('ACP_DMZX_TOPICIMAGE_DIRECTION') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_DMZX_TOPICIMAGE_DIRECTION_EXPLAIN') }}</span></dt>
+			<dt><label>{{ lang('ACP_DMZX_TOPICIMAGE_DIRECTION') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_DIRECTION_EXPLAIN') }}</span></dt>
 			<dd>{{ DMZX_TOPICIMAGE_DIRECTION }}</dd>
 		</dl>
 		<dl>
-			<dt><label for="dmzx_topicimage_items">{{ lang('ACP_DMZX_TOPICIMAGE_ITEMS') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_DMZX_TOPICIMAGE_ITEMS_EXPLAIN') }}</span></dt>
+			<dt><label for="dmzx_topicimage_items">{{ lang('ACP_DMZX_TOPICIMAGE_ITEMS') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_ITEMS_EXPLAIN') }}</span></dt>
 			<dd><input type="number" id="dmzx_topicimage_items" name="dmzx_topicimage_items" value="{{ DMZX_TOPICIMAGE_ITEMS }}" size="1" min="1" max="8"/></dd>
 		</dl>
 		<dl>
-			<dt><label for="dmzx_topicimage_timer">{{ lang('ACP_DMZX_TOPICIMAGE_TIMER') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_DMZX_TOPICIMAGE_TIMER_EXPLAIN') }}</span></dt>
+			<dt><label for="dmzx_topicimage_timer">{{ lang('ACP_DMZX_TOPICIMAGE_TIMER') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_TIMER_EXPLAIN') }}</span></dt>
 			<dd><input type="number" id="dmzx_topicimage_timer" name="dmzx_topicimage_timer" value="{{ DMZX_TOPICIMAGE_TIMER }}" size="1" min="500" max="5000"/></dd>
 		</dl>
 		<dl>
@@ -69,8 +69,29 @@
 		</dl>
 		{% endif %}
 		<dl>
-			<dt><label>{{ lang('ACP_DMZX_TOPICIMAGE_INCLUDE') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_DMZX_TOPICIMAGE_INCLUDE_EXPLAIN') }}</span></dt>
+			<dt><label for="dmzx_topicimage_amount">{{ lang('ACP_DMZX_TOPICIMAGE_AMOUNT') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_AMOUNT_EXPLAIN') }}</span></dt>
+			<dd><input type="number" id="dmzx_topicimage_amount" name="dmzx_topicimage_amount" value="{{ DMZX_TOPICIMAGE_AMOUNT }}" size="1" min="1" max="500"/></dd>
+		</dl>
+		<dl>
+			<dt><label>{{ lang('ACP_DMZX_TOPICIMAGE_INCLUDE') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_INCLUDE_EXPLAIN') }}</span></dt>
 			<dd>{{ DMZX_TOPICIMAGE_INCLUDED }}</dd>
+		</dl>
+		<hr>
+		<dl>
+			<dt><label>{{ lang('ACP_DMZX_TOPICIMAGE_TIME_ENABLE') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_TIME_ENABLE_EXPLAIN') }}</span></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="dmzx_topicimage_time_enable" value="1"{% if DMZX_TOPICIMAGE_TIME_ENABLE %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="dmzx_topicimage_time_enable" value="0"{% if not DMZX_TOPICIMAGE_TIME_ENABLE %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label>{{ lang('ACP_DMZX_TOPICIMAGE_PRUNE_TIME') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_TIME_EXPLAIN') }}</span></dt>
+			<dd>
+				<span>{{ lang('ACP_DMZX_TOPICIMAGE_PRUNE_HOURS') }}</span>
+			</dd>
+			<dd>
+				<input type="number" name="dmzx_topicimage_gc" value="{{ DMZX_TOPICIMAGE_GC }}" size="4" min="1" style="text-align:center;"/>
+			</dd>
 		</dl>
 	</fieldset>
 

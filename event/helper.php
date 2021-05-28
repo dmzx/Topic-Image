@@ -29,6 +29,9 @@ class helper
 	protected $db;
 
 	/** @var string */
+	protected $tables;
+
+	/** @var string */
 	protected $root_path;
 
 	/**
@@ -37,18 +40,21 @@ class helper
 	 * @param auth			 			$auth
 	 * @param config					$config
 	 * @param driver_interface 			$db
+	 * @param tables					$tables
 	 * @param string					$root_path
 	 */
 	public function __construct(
 		auth $auth,
 		config $config,
 		driver_interface $db,
+		array $tables,
 		string $root_path
 	)
 	{
 		$this->auth 		= $auth;
 		$this->config 		= $config;
 		$this->db 			= $db;
+		$this->tables		= $tables;
 		$this->root_path 	= $root_path;
 	}
 
@@ -104,7 +110,7 @@ class helper
 				}
 			}
 		}
-			else
+		else
 		{
 			return;
 		}
@@ -126,8 +132,7 @@ class helper
 			}
 
 			$sql = 'SELECT p.post_id, p.topic_id, p.forum_id, p.post_text, p.post_subject, p.post_time, p.post_visibility, t.topic_id, t.topic_title, t.topic_first_post_id
-				FROM ' . POSTS_TABLE . ' p,
-				 ' . TOPICS_TABLE . ' t
+				FROM ' . $this->tables['posts'] . ' p, ' . $this->tables['topics'] . ' t
 				WHERE post_text ' . $this->db->sql_like_expression('<r>' . $this->db->get_any_char() . '<IMG ' . $this->db->get_any_char()) . '
 					AND p.topic_id = ' . (int) $topic_id . '
 					AND p.post_visibility = ' . ITEM_APPROVED . '
@@ -143,35 +148,45 @@ class helper
 		return $rowset;
 	}
 
-	public function grab_images($forum_id)
+	public function cron_images()
+	{
+		$handle = @opendir($this->root_path . 'images/' . $this->config['dmzx_topicimage_img_folder']);
+		$files	= [];
+
+		if ($handle)
+		{
+			while ($file = readdir($handle))
+			{
+				if ($file != '.' && $file != '..' && $file != '.htaccess' && $file != 'index.htm' && $file != 'index.html')
+				{
+					$files[] = $file;
+				}
+			}
+			closedir($handle);
+
+			if (!empty($files))
+			{
+				foreach ($files as $del_file)
+				{
+					@unlink($this->root_path . 'images/' . $this->config['dmzx_topicimage_img_folder'] . '/' . $del_file);
+				}
+			}
+		}
+		$this->grab_images();
+	}
+
+	public function grab_images()
 	{
 		$thumbs = [];
 
-		$forum_ary = [];
-		$forum_read_ary = $this->auth->acl_getf('f_read');
-
-		foreach ($forum_read_ary as $forum_id => $allowed)
-		{
-			if ($allowed['f_read'])
-			{
-				$forum_ary[] = (int) $forum_id;
-			}
-		}
-		$forum_ary = array_unique($forum_ary);
-
-		$excluded_forums = explode(',', $this->config['dmzx_topicimage_included']);
-
-		$forum_ary = array_diff($forum_ary, $excluded_forums);
-
 		$sql = 'SELECT p.post_id, p.topic_id, p.forum_id, p.post_text, p.post_subject, p.post_time, p.post_visibility, t.topic_id, t.topic_title, t.topic_first_post_id
-			FROM ' . POSTS_TABLE . ' p,
-			 ' . TOPICS_TABLE . ' t
+			FROM ' . $this->tables['posts'] . ' p, ' . $this->tables['topics'] . ' t
 			WHERE post_text ' . $this->db->sql_like_expression('<r>' . $this->db->get_any_char() . '<IMG ' . $this->db->get_any_char()) . '
-				 AND ' . $this->db->sql_in_set('p.forum_id', $forum_ary, true) . '
+				AND p.forum_id IN (' . chop($this->config['dmzx_topicimage_included'], ' ,') . ')
 				AND p.post_visibility = ' . ITEM_APPROVED . '
 				AND p.post_id = t.topic_first_post_id
 			ORDER BY p.post_time DESC';
-		$result = $this->db->sql_query($sql);
+		$result = $this->db->sql_query_limit($sql, $this->config['dmzx_topicimage_amount']);
 		$att_count = $create_count = 0;
 		while ($row = $this->db->sql_fetchrow($result))
 		{
@@ -186,7 +201,7 @@ class helper
 			$postimage_pre		= strtolower(preg_replace('#[^a-zA-Z0-9_+.-]#', '', $postimage_pre));
 			$thumbnail_file 	= $image_path . 'topicimage-' . $row['forum_id'] . '-' . $row['topic_id']	. '-' . $topic_title . '-' . $postimage_pre;
 
-				$results = true;
+			$results = true;
 			if (!file_exists($this->root_path . $thumbnail_file))
 			{
 				foreach($this->extract_images($row['post_text']) as $image)

@@ -35,5 +35,5 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, [
 	'ACL_U_DMZX_TOPICIMAGE'			=> 'Topic Image',
-	'ACL_U_DMZX_TOPICIMAGE_USE'		=> 'Can upload topic images.',
+	'ACL_U_DMZX_TOPICIMAGE_USE'		=> 'Can grab topic images.',
 ]);

@@ -148,9 +148,12 @@ class acp_controller
 				$this->config->set('dmzx_topicimage_direction', $this->request->variable('dmzx_topicimage_direction', '', true));
 				$this->config->set('dmzx_topicimage_timer', $this->request->variable('dmzx_topicimage_timer', 0));
 				$this->config->set('dmzx_topicimage_items', $this->request->variable('dmzx_topicimage_items', 0));
+				$this->config->set('dmzx_topicimage_amount', $this->request->variable('dmzx_topicimage_amount', 0));
+				$this->config->set('dmzx_topicimage_time_enable', $this->request->variable('dmzx_topicimage_time_enable', 0));
+				$this->config->set('dmzx_topicimage_gc', $this->request->variable('dmzx_topicimage_gc', 0) * 3600);
 
 				$forums = $this->request->variable('selectForms',	['']);
-				// change the array to a string
+				// Change the array to a string
 				$forums	= implode(',', $forums);
 				$this->config->set('dmzx_topicimage_included', $forums);
 
@@ -220,11 +223,11 @@ class acp_controller
 
 			if ($forum_id)
 			{
-				$result = 	$this->helper->grab_images($forum_id);
+				$result = $this->helper->grab_images();
 
 				if ($result['thumbs'])
 				{
-					$thumb_names = implode('<br />', $result['thumbs']);
+					$thumb_names = implode('<br>', $result['thumbs']);
 					$message = $this->language->lang('ACP_DMZX_TOPICIMAGE_GRAB_IMAGES', $thumb_names);
 
 					meta_refresh(5, append_sid($this->u_action));
@@ -248,7 +251,7 @@ class acp_controller
 		// Set output variables for display in the template
 		$this->template->assign_vars([
 			'S_ERROR'							=> $s_errors,
-			'ERROR_MSG'							=> $s_errors ? implode('<br />', $errors) : '',
+			'ERROR_MSG'							=> $s_errors ? implode('<br>', $errors) : '',
 			'DMZX_TOPICIMAGE_INCLUDED'			=> $this->forum_select($included_forums),
 			'DMZX_TOPICIMAGE_ENABLE'			=> $this->config['dmzx_topicimage_enable'],
 			'DMZX_TOPICIMAGE_SIZE'				=> $this->config['dmzx_topicimage_size'],
@@ -260,6 +263,9 @@ class acp_controller
 			'DMZX_TOPICIMAGE_DIRECTION'			=> $this->get_dmzx_topicimage_direction(),
 			'DMZX_TOPICIMAGE_TIMER'				=> $this->config['dmzx_topicimage_timer'],
 			'DMZX_TOPICIMAGE_ITEMS'				=> $this->config['dmzx_topicimage_items'],
+			'DMZX_TOPICIMAGE_AMOUNT'			=> $this->config['dmzx_topicimage_amount'],
+			'DMZX_TOPICIMAGE_TIME_ENABLE'		=> $this->config['dmzx_topicimage_time_enable'],
+			'DMZX_TOPICIMAGE_GC'			 	=> $this->config['dmzx_topicimage_gc'] / 3600,
 			'DMZX_TOPICIMAGE_VERSION'			=> $this->config['dmzx_topicimage_version'],
 			'DMZX_TOPICIMAGE_FOUNDER'			=> $is_founder,
 			'U_ACTION'							=> $this->u_action,
