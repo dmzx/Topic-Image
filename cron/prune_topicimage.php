@@ -30,7 +30,7 @@ class prune_topicimage extends \phpbb\cron\task\base
 	 */
 	public function __construct(
 		config $config,
-		helper $helper,
+		helper $helper
 	)
 	{
 		$this->config			= $config;
