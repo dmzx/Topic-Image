@@ -1,6 +1,6 @@
 # Topic Image Extension
 
-[![Build Status](https://travis-ci.com/dmzx/Topic-Image.svg?branch=master)](https://travis-ci.com/dmzx/Topic-Image)
+[![Build Status](https://github.com/dmzx/Topic-Image/workflows/Tests/badge.svg)](https://github.com/phpbb-extensions/dmzx/Topic-Image)
 
 ## Install
 1. Download the latest release.
