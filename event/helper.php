@@ -96,7 +96,7 @@ class helper
 		$create_count = 0;
 		if (!file_exists($this->root_path . $thumbnail_file))
 		{
-			foreach($this->extract_images($event['row']['post_text']) as $image)
+			foreach ($this->extract_images($event['row']['post_text']) as $image)
 			{
 				if ($this->url_exists($image))
 				{
@@ -204,7 +204,7 @@ class helper
 			$results = true;
 			if (!file_exists($this->root_path . $thumbnail_file))
 			{
-				foreach($this->extract_images($row['post_text']) as $image)
+				foreach ($this->extract_images($row['post_text']) as $image)
 				{
 					if ($this->url_exists($image))
 					{
