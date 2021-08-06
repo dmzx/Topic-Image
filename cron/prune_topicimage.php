@@ -12,8 +12,9 @@ namespace dmzx\topicimage\cron;
 
 use phpbb\config\config;
 use dmzx\topicimage\event\helper;
+use phpbb\cron\task\base;
 
-class prune_topicimage extends \phpbb\cron\task\base
+class prune_topicimage extends base
 {
 	/** @var config */
 	protected $config;

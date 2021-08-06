@@ -10,7 +10,9 @@
 
 namespace dmzx\topicimage\migrations;
 
-class topicimage_install extends \phpbb\db\migration\migration
+use phpbb\db\migration\migration;
+
+class topicimage_install extends migration
 {
 	public static function depends_on()
 	{
