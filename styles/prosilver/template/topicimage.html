@@ -19,7 +19,16 @@
 					<div id="scroll-cr-scroll-crawl" class="panel inner" style="min-height: {{ DMZX_TOPICIMAGE_SIZE }}px;">
 						<div id="scroll-jq" class="scroll-img" style="height: {{ DMZX_TOPICIMAGE_SIZE }}px;">
 						{% for dmzx_topicimage in loops.dmzx_topicimage %}
-							<li style="height: {{ DMZX_TOPICIMAGE_HEIGHT }}px;"><a href="{{ dmzx_topicimage.DMZX_TOPICIMAGE_POST }}"><img src="{{ dmzx_topicimage.DMZX_TOPICIMAGE_IMG }}" title="{{ dmzx_topicimage.DMZX_TOPICIMAGE_TITLE }}" alt="{{ dmzx_topicimage.DMZX_TOPICIMAGE_ALT }}" /></a></li>
+							<li style="height: {{ DMZX_TOPICIMAGE_HEIGHT }}px; width: {{ DMZX_TOPICIMAGE_WIDTH }}px; list-style-type: none;">
+								<a href="{{ dmzx_topicimage.DMZX_TOPICIMAGE_POST }}" style="display: block; height: 100%; width: 100%;">
+									<img src="{{ dmzx_topicimage.DMZX_TOPICIMAGE_IMG }}" title="{{ dmzx_topicimage.DMZX_TOPICIMAGE_TITLE }}" alt="{{ dmzx_topicimage.DMZX_TOPICIMAGE_ALT }}" style="width: 100%; height: 100%; object-fit: cover;" />
+								</a>
+								{% if S_DMZX_TOPICIMAGE_SHOW_TITLE %}
+								<div class="image-title" style="color: #{{ DMZX_TOPICIMAGE_COLOUR_TITLE }} !important; font-weight: bold; text-align: center; position: relative; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: {{ DMZX_TOPICIMAGE_WIDTH }}px;">
+									{{ dmzx_topicimage.DMZX_TOPICIMAGE_TITLE|slice(0, 20) }}{% if dmzx_topicimage.DMZX_TOPICIMAGE_TITLE|length > 20 %}...{% endif %}
+								</div>
+								{% endif %}
+							</li>
 						{% endfor %}
 						</div>
 						<dt style="display: none"></dt>
@@ -30,4 +39,11 @@
 		</ul>
 	</div>
 </div>
+{% if S_DMZX_TOPICIMAGE_SHOW_TITLE %}
+<style>
+.caroufredsel_wrapper, #scroll-jq.scroll-img {
+	height: {{ DMZX_TOPICIMAGE_SIZE }}px !important;
+}
+</style>
+{% endif %}
 {% endif %}

@@ -13,6 +13,7 @@ namespace dmzx\topicimage\event;
 use phpbb\auth\auth;
 use phpbb\config\config;
 use phpbb\db\driver\driver_interface;
+use phpbb\exception\http_exception;
 
 /**
  * Topic Image helper.
@@ -180,7 +181,7 @@ class helper
 		$thumbs = [];
 
 		$sql = 'SELECT p.post_id, p.topic_id, p.forum_id, p.post_text, p.post_subject, p.post_time, p.post_visibility, t.topic_id, t.topic_title, t.topic_first_post_id
-			FROM ' . $this->tables['posts'] . ' p, ' . $this->tables['topics'] . ' t
+		FROM ' . $this->tables['posts'] . ' p, ' . $this->tables['topics'] . ' t
 			WHERE post_text ' . $this->db->sql_like_expression('<r>' . $this->db->get_any_char() . '<IMG ' . $this->db->get_any_char()) . '
 				AND p.forum_id IN (' . chop($this->config['dmzx_topicimage_included'], ' ,') . ')
 				AND p.post_visibility = ' . ITEM_APPROVED . '
@@ -240,6 +241,7 @@ class helper
 		$dom = new \DOMDocument;
 		$dom->loadXML($post);
 		$xpath = new \DOMXPath($dom);
+
 		foreach ($xpath->query('//IMG[not(ancestor::IMG)]/@src') as $image)
 		{
 			$images[] = $image->textContent;
@@ -255,7 +257,16 @@ class helper
 
 	protected function url_exists($url)
 	{
-		if (@getimagesize($url))
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_NOBODY, true);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Follow redirects
+		curl_exec($ch);
+
+		$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		curl_close($ch);
+
+		if ($http_code >= 200 && $http_code < 400)
 		{
 			return true;
 		}
@@ -267,7 +278,27 @@ class helper
 
 	protected function img_resize($file, $resize, $thumbnail_file, $copy = false)
 	{
-		$size = @getimagesize($file);
+		// Use cURL to download the image content
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $file);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		$image_data = curl_exec($ch);
+		$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		curl_close($ch);
+
+		if ($http_code != 200 || $image_data === false)
+		{
+			return;
+		}
+
+		// Get image size from the image data
+		$size = getimagesizefromstring($image_data);
+		if ($size === false)
+		{
+			return;
+		}
 
 		if (!isset($size[0]) || !isset($size[1]))
 		{
@@ -283,16 +314,16 @@ class helper
 		switch ($image_type)
 		{
 			case IMAGETYPE_JPEG:
-				$image = imagecreatefromjpeg($file);
-			break;
+				$image = imagecreatefromstring($image_data);
+				break;
 			case IMAGETYPE_GIF:
-				$image = imagecreatefromgif($file);
-			break;
+				$image = imagecreatefromstring($image_data);
+				break;
 			case IMAGETYPE_PNG:
-				$image = imagecreatefrompng($file);
-			break;
+				$image = imagecreatefromstring($image_data);
+				break;
 			default:
-			return;
+				return;
 		}
 
 		$width = imagesx($image);
@@ -300,17 +331,17 @@ class helper
 
 		$thumb_width = $thumb_height = $resize;
 		$thumbnail_width = $thumb_width;
-		$thumbnail_height = floor($height * ($thumbnail_width/$width));
+		$thumbnail_height = floor($height * ($thumbnail_width / $width));
 
 		$new_left = 0;
-		$new_top = floor(($thumbnail_height - $thumb_height)/2);
+		$new_top = floor(($thumbnail_height - $thumb_height) / 2);
 
 		if ($thumbnail_height < $thumb_height)
 		{
 			$thumbnail_height = $thumb_height;
-			$thumbnail_width = floor($width * ($thumbnail_height/$height));
+			$thumbnail_width = floor($width * ($thumbnail_height / $height));
 
-			$new_left = floor(($thumbnail_width - $thumb_width)/2);
+			$new_left = floor(($thumbnail_width - $thumb_width) / 2);
 			$new_top = 0;
 		}
 
@@ -331,20 +362,20 @@ class helper
 		if ($copy && ($thumb_height > 40 || $thumb_width > 40))
 		{
 			$color = imageColorAllocate($image, 140, 120, 90);
-			imageString($thumbnail, 1, ($thumb_width/2)-(strlen($copy)*3-5), $thumb_height-10, $copy, $color);
+			imageString($thumbnail, 1, ($thumb_width / 2) - (strlen($copy) * 3 - 5), $thumb_height - 10, $copy, $color);
 		}
 
 		switch ($image_type)
 		{
 			case IMAGETYPE_JPEG:
 				imagejpeg($thumbnail, $thumbnail_file, 90);
-			break;
+				break;
 			case IMAGETYPE_GIF:
 				imagegif($thumbnail, $thumbnail_file);
-			break;
+				break;
 			case IMAGETYPE_PNG:
 				imagepng($thumbnail, $thumbnail_file, 0);
-			break;
+				break;
 		}
 		imagedestroy($thumbnail);
 	}

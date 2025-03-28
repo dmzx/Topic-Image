@@ -142,6 +142,9 @@ class acp_controller
 				// Set the options the user configured
 				$this->config->set('dmzx_topicimage_enable', $this->request->variable('dmzx_topicimage_enable', 0));
 				$this->config->set('dmzx_topicimage_size', $this->request->variable('dmzx_topicimage_size', 0));
+				$this->config->set('dmzx_topicimage_width', $this->request->variable('dmzx_topicimage_width', 0));
+				$this->config->set('dmzx_topicimage_show_title', $this->request->variable('dmzx_topicimage_show_title', 0));
+				$this->config->set('dmzx_topicimage_colour_title', $this->request->variable('dmzx_topicimage_colour_title', '', true));
 				$this->config->set('dmzx_topicimage_copyright', $this->request->variable('dmzx_topicimage_copyright', '', true));
 				$this->config->set('dmzx_topicimage_place', $this->request->variable('dmzx_topicimage_place', 0));
 				$this->config->set('dmzx_topicimage_effect', $this->request->variable('dmzx_topicimage_effect', '', true));
@@ -162,6 +165,7 @@ class acp_controller
 
 				// Option settings have been updated and logged
 				// Confirm this to the user and provide link back to previous page
+				meta_refresh(2, append_sid($this->u_action));
 				trigger_error($this->language->lang('ACP_TOPICIMAGE_SETTING_SAVED') . adm_back_link($this->u_action));
 			}
 		}
@@ -255,6 +259,9 @@ class acp_controller
 			'DMZX_TOPICIMAGE_INCLUDED'			=> $this->forum_select($included_forums),
 			'DMZX_TOPICIMAGE_ENABLE'			=> $this->config['dmzx_topicimage_enable'],
 			'DMZX_TOPICIMAGE_SIZE'				=> $this->config['dmzx_topicimage_size'],
+			'DMZX_TOPICIMAGE_WIDTH'				=> $this->config['dmzx_topicimage_width'],
+			'DMZX_TOPICIMAGE_SHOW_TITLE'		=> $this->config['dmzx_topicimage_show_title'],
+			'DMZX_TOPICIMAGE_COLOUR_TITLE'		=> $this->config['dmzx_topicimage_colour_title'],
 			'DMZX_TOPICIMAGE_COPYRIGHT'			=> isset($this->config['dmzx_topicimage_copyright']) ? $this->config['dmzx_topicimage_copyright'] : '',
 			'DMZX_TOPICIMAGE_PLACE'				=> $this->location($this->config['dmzx_topicimage_place']),
 			'DMZX_TOPICIMAGE_IMG_FOLDER'		=> $this->config['dmzx_topicimage_img_folder'],

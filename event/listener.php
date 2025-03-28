@@ -98,6 +98,9 @@ class listener implements EventSubscriberInterface
 
 			$files = glob($image_path . "*.*",GLOB_BRACE);
 
+			// Shuffle the array to randomize the order of files
+			shuffle($files);
+
 			for ($i = 0; $i < count($files); $i++)
 			{
 				$image = $files[$i];
@@ -112,14 +115,17 @@ class listener implements EventSubscriberInterface
 			}
 
 			$this->template->assign_vars([
-				'S_DMZX_TOPICIMAGE_ENABLE'		=> $this->config['dmzx_topicimage_enable'],
-				'DMZX_TOPICIMAGE_SIZE'			=> $this->config['dmzx_topicimage_size'] + 10,
-				'DMZX_TOPICIMAGE_HEIGHT'		=> $this->config['dmzx_topicimage_size'],
-				'S_DMZX_TOPICIMAGE_PLACE'		=> $this->config['dmzx_topicimage_place'],
-				'DMZX_TOPICIMAGE_EFFECT'		=> $this->config['dmzx_topicimage_effect'],
-				'DMZX_TOPICIMAGE_DIRECTION'		=> $this->config['dmzx_topicimage_direction'],
-				'DMZX_TOPICIMAGE_TIMER'			=> $this->config['dmzx_topicimage_timer'],
-				'DMZX_TOPICIMAGE_ITEMS'			=> $this->config['dmzx_topicimage_items'],
+				'S_DMZX_TOPICIMAGE_ENABLE'			=> $this->config['dmzx_topicimage_enable'],
+				'DMZX_TOPICIMAGE_SIZE'				=> $this->config['dmzx_topicimage_show_title'] ? $this->config['dmzx_topicimage_size'] + 20 : $this->config['dmzx_topicimage_size'] + 10,
+				'DMZX_TOPICIMAGE_HEIGHT'			=> $this->config['dmzx_topicimage_size'],
+				'DMZX_TOPICIMAGE_WIDTH'				=> $this->config['dmzx_topicimage_width'],
+				'DMZX_TOPICIMAGE_COLOUR_TITLE'		=> $this->config['dmzx_topicimage_colour_title'],
+				'S_DMZX_TOPICIMAGE_SHOW_TITLE'		=> $this->config['dmzx_topicimage_show_title'],
+				'S_DMZX_TOPICIMAGE_PLACE'			=> $this->config['dmzx_topicimage_place'],
+				'DMZX_TOPICIMAGE_EFFECT'			=> $this->config['dmzx_topicimage_effect'],
+				'DMZX_TOPICIMAGE_DIRECTION'			=> $this->config['dmzx_topicimage_direction'],
+				'DMZX_TOPICIMAGE_TIMER'				=> $this->config['dmzx_topicimage_timer'],
+				'DMZX_TOPICIMAGE_ITEMS'				=> $this->config['dmzx_topicimage_items'],
 			]);
 		}
 	}

@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "Topic image on index extension.",
 	"homepage": "https://www.dmzx-web.net",
-	"version": "1.0.1",
-	"time": "2021-05-26",
+	"version": "1.0.2",
+	"time": "2025-02-18",
 	"keywords": [
 		"phpbb",
 		"extension",

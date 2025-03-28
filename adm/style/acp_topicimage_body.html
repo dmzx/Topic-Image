@@ -1,4 +1,5 @@
 {% include 'overall_header.html' %}
+{% INCLUDEJS '@dmzx_topicimage/jscolor/jscolor.js' %}
 
 <h1>{{ lang('ACP_TOPICIMAGE_TITLE') }}</h1>
 
@@ -23,7 +24,22 @@
 		</dl>
 		<dl>
 			<dt><label for="dmzx_topicimage_size">{{ lang('ACP_DMZX_TOPICIMAGE_SIZE') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_SIZE_EXPLAIN') }}</span></dt>
-			<dd><input type="number" id="dmzx_topicimage_size" name="dmzx_topicimage_size" value="{{ DMZX_TOPICIMAGE_SIZE }}" size="1" min="60" max="120"/></dd>
+			<dd><input type="number" id="dmzx_topicimage_size" name="dmzx_topicimage_size" value="{{ DMZX_TOPICIMAGE_SIZE }}" size="1" min="60" max="150"/></dd>
+		</dl>
+		<dl>
+			<dt><label for="dmzx_topicimage_width">{{ lang('ACP_DMZX_TOPICIMAGE_WIDTH') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_WIDTH_EXPLAIN') }}</span></dt>
+			<dd><input type="number" id="dmzx_topicimage_width" name="dmzx_topicimage_width" value="{{ DMZX_TOPICIMAGE_WIDTH }}" size="1" min="60" max="150"/></dd>
+		</dl>
+		<dl>
+			<dt><label for="dmzx_topicimage_show_title">{{ lang('ACP_DMZX_TOPICIMAGE_SHOW_TITLE') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_SHOW_TITLE_EXPLAIN') }}</span></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="dmzx_topicimage_show_title" value="1"{% if DMZX_TOPICIMAGE_SHOW_TITLE %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="dmzx_topicimage_show_title" value="0"{% if not DMZX_TOPICIMAGE_SHOW_TITLE %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="dmzx_topicimage_colour_title">{{ lang('ACP_DMZX_TOPICIMAGE_COLOUR_TITLE') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_COLOUR_TITLE_EXPLAIN') }}</span></dt>
+			<dd><input class="text post color {required:false,caps:false}" name="dmzx_topicimage_colour_title" type="text" id="dmzx_topicimage_colour_title" value="{{ DMZX_TOPICIMAGE_COLOUR_TITLE }}" size="6" maxlength="6" /></dd>
 		</dl>
 		<dl>
 			<dt><label for="dmzx_topicimage_copyright">{{ lang('ACP_DMZX_TOPICIMAGE_COPYRIGHT') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_DMZX_TOPICIMAGE_COPYRIGHT_EXPLAIN') }}</span></dt>
@@ -59,8 +75,15 @@
 		{% if DMZX_TOPICIMAGE_FOUNDER %}
 		<hr>
 		<dl>
-			<dt><label for="dmzx_topicimage_clearall">{{ lang('ACP_DMZX_TOPICIMAGE_CLEAR_ALL') ~ lang('COLON') }}</label><br><span>{{ DMZX_TOPICIMAGE_CLEAR_ALL_EXPLAIN }}</span></dt>
-			<dd><input class="button2" id="dmzx_topicimage_clear_all" name="dmzx_topicimage_clear_all" value="{{ lang('RUN') }}" type="submit"></dd>
+			<dt>
+				<label for="dmzx_topicimage_clearall">{{ lang('ACP_DMZX_TOPICIMAGE_CLEAR_ALL') ~ lang('COLON') }}</label><br>
+				<span>{{ DMZX_TOPICIMAGE_CLEAR_ALL_EXPLAIN }}</span>
+			</dt>
+			<dd>
+				<input class="button2" id="dmzx_topicimage_clear_all" name="dmzx_topicimage_clear_all" value="{{ lang('RUN') }}" type="submit" {% if not dmzx_topicimage_confirm_delete %}disabled{% endif %}>
+				<input class="checkbox" type="checkbox" id="dmzx_topicimage_confirm_delete" name="dmzx_topicimage_confirm_delete" value="1">
+				<label for="dmzx_topicimage_confirm_delete">{{ lang('ACP_DMZX_TOPICIMAGE_CONFIRM_DELETE') }}</label>
+			</dd>
 		</dl>
 		<hr>
 		<dl>
@@ -101,5 +124,10 @@
 	</fieldset>
 
 </form>
+<script>
+document.getElementById('dmzx_topicimage_confirm_delete').addEventListener('change', function() {
+	document.getElementById('dmzx_topicimage_clear_all').disabled = !this.checked;
+});
+</script>
 
 {% include 'overall_footer.html' %}

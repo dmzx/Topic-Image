@@ -81,4 +81,11 @@ $lang = array_merge($lang, [
 	'ACP_DMZX_TOPICIMAGE_GRAB_IMAGES'				=> '<strong>Forums checked</strong><br>The following thumbnails were created or need to be checked<br>%s',
 	'ACP_DMZX_TOPICIMAGE_GRAB_NOTHING'				=> '<strong>No new images found.</strong>',
 	'ACP_TOPICIMAGE_SETTING_SAVED'					=> 'Settings have been saved successfully!',
+	'ACP_DMZX_TOPICIMAGE_CONFIRM_DELETE'			=> 'Confirm delete',
+	'ACP_DMZX_TOPICIMAGE_WIDTH'						=> 'Set width',
+	'ACP_DMZX_TOPICIMAGE_WIDTH_EXPLAIN'				=> 'Set thumbnail width.',
+	'ACP_DMZX_TOPICIMAGE_SHOW_TITLE'				=> 'Show title under image',
+	'ACP_DMZX_TOPICIMAGE_SHOW_TITLE_EXPLAIN'		=> 'Show title under image, will be sliced to 20 characters.',
+	'ACP_DMZX_TOPICIMAGE_COLOUR_TITLE'				=> 'Set colour title',
+	'ACP_DMZX_TOPICIMAGE_COLOUR_TITLE_EXPLAIN'		=> 'Set colour of title under images.',
 ]);
