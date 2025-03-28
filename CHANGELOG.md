@@ -1,5 +1,9 @@
 # Topic Image Changelog
 
+## 1.0.3 - 2025-03-26
+
+- Added WebP case.
+	
 ## 1.0.2 - 2025-02-18
 
 - Code update.

@@ -314,12 +314,9 @@ class helper
 		switch ($image_type)
 		{
 			case IMAGETYPE_JPEG:
-				$image = imagecreatefromstring($image_data);
-				break;
 			case IMAGETYPE_GIF:
-				$image = imagecreatefromstring($image_data);
-				break;
 			case IMAGETYPE_PNG:
+			case IMAGETYPE_WEBP:
 				$image = imagecreatefromstring($image_data);
 				break;
 			default:
@@ -375,6 +372,9 @@ class helper
 				break;
 			case IMAGETYPE_PNG:
 				imagepng($thumbnail, $thumbnail_file, 0);
+				break;
+			case IMAGETYPE_WEBP:
+				imagewebp($thumbnail, $thumbnail_file, 90);
 				break;
 		}
 		imagedestroy($thumbnail);
